@@ -1,5 +1,6 @@
 import express from "express";
 import User from "../models/User.js";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
@@ -26,7 +27,15 @@ app.post("/login", async (req, res) => {
     });
 
     if (user) {
-        return res.json({ status: "ok", user: true });
+        const token = jwt.sign(
+            {
+                name: user.name,
+                email: user.email,
+            },
+            process.env.TOKEN_SECRET
+        );
+
+        return res.json({ status: "ok", token: token });
     } else {
         return res.json({ status: "error", user: false });
     }
