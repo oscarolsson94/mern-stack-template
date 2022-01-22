@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import "./App.css";
 
-function App() {
+export const Register = () => {
     const [name, setName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
 
-    const registerUser = async (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
         const response = await fetch("http://localhost:3001/api/register", {
             method: "POST",
@@ -19,7 +18,6 @@ function App() {
                 password,
             }),
         });
-
         const data = await response.json();
         console.log(data);
     };
@@ -27,7 +25,7 @@ function App() {
     return (
         <div>
             <h1>Register</h1>
-            <form onSubmit={registerUser}>
+            <form onSubmit={handleRegister}>
                 <input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -53,6 +51,4 @@ function App() {
             </form>
         </div>
     );
-}
-
-export default App;
+};
