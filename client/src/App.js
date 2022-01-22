@@ -8,7 +8,7 @@ function App() {
 
     const registerUser = async (e) => {
         e.preventDefault();
-        const response = await fetch("http://locahost:3001/api/register", {
+        const response = await fetch("http://localhost:3001/api/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
