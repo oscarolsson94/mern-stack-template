@@ -8,17 +8,14 @@ const router = express.Router();
 router.post("/register", async (req, res) => {
     try {
         const newPassword = await bcrypt.hash(req.body.password, 10);
-        const user = await User.create({
+        await User.create({
             name: req.body.name,
             email: req.body.email,
             password: newPassword,
         });
-        res.json({ status: "ok" });
+        res.status(201).send("Account created");
     } catch (error) {
-        res.json({
-            status: "error",
-            error: "This email is already registered to an existing account",
-        });
+        res.status(500).send("Email is already registered");
     }
 });
 

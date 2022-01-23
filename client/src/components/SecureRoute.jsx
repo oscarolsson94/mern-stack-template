@@ -1,18 +1,13 @@
 import React from "react";
-import { Navigate, Route } from "react-router-dom";
-import jwt from "jsonwebtoken";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
-const AuthRoute = ({ ...routeProps }) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-        const user = jwt.decode(token);
-        if (!user) {
-            localStorage.removeItem("token");
-            return <Navigate to="/" />;
-        } else {
-            return <Route {...routeProps} />;
-        }
-    }
+export const SecureRoute = ({ ...routeProps }) => {
+    const location = useLocation();
+    const isAuth = useAuth();
+    return isAuth ? (
+        <Outlet />
+    ) : (
+        <Navigate to="/login" state={{ from: location }} replace />
+    );
 };
-
-export default AuthRoute;
